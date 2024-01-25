@@ -20,19 +20,13 @@ fn main() {
     env::commit(&answer);
 }
 
-#[inline(never)]
-#[no_mangle]
-pub fn fibonacci(n: u32) -> u64 {
-    let (mut a, mut b) = (0, 1);
-    if n <= 1 {
-        return n as u64;
+fn fibonacci(n: u32) -> u32 {
+    if n < 2 {
+        return n;
     }
-    let mut i = 2;
-    while i <= n {
-        let c = a + b;
-        a = b;
-        b = c;
-        i += 1;
+    let (mut curr, mut last) = (1_u32, 0_u32);
+    for _i in 0..(n - 2) {
+        (curr, last) = (curr.wrapping_add(last), curr);
     }
-    b
+    curr
 }
