@@ -12,17 +12,19 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod big_blake2b;
-pub mod big_blake3;
-pub mod big_keccak;
-pub mod big_sha2;
-pub mod ecdsa_verify;
-pub mod ed25519_verify;
-pub mod fibonacci;
-pub mod fibonacci_mozak;
-pub mod iter_blake2b;
-pub mod iter_blake3;
-pub mod iter_keccak;
-pub mod iter_sha2;
-pub mod membership;
-pub mod sudoku;
+use risc0_zkvm::serde::to_vec;
+
+use crate::Job;
+
+pub fn new_jobs() -> Vec<Job> {
+    let mut jobs = Vec::new();
+    for iterations in [1000] {
+        jobs.push(Job::new(
+            format!("fibonacci-mozak-{iterations}"),
+            risc0_benchmark_methods::FIBONACCI_MOZAK_ELF,
+            risc0_benchmark_methods::FIBONACCI_MOZAK_ID.into(),
+            to_vec(&iterations).unwrap(),
+        ));
+    }
+    jobs
+}

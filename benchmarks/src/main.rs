@@ -47,6 +47,7 @@ enum Command {
     IterSha2,
     Membership,
     Sudoku,
+    FibonacciMozak,
 }
 
 impl Command {
@@ -69,6 +70,7 @@ impl Command {
             Command::IterSha2 => iter_sha2::new_jobs(),
             Command::Membership => membership::new_jobs(),
             Command::Sudoku => sudoku::new_jobs(),
+            Command::FibonacciMozak => fibonacci_mozak::new_jobs(),
         }
     }
 }

@@ -12,17 +12,27 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-pub mod big_blake2b;
-pub mod big_blake3;
-pub mod big_keccak;
-pub mod big_sha2;
-pub mod ecdsa_verify;
-pub mod ed25519_verify;
-pub mod fibonacci;
-pub mod fibonacci_mozak;
-pub mod iter_blake2b;
-pub mod iter_blake3;
-pub mod iter_keccak;
-pub mod iter_sha2;
-pub mod membership;
-pub mod sudoku;
+use risc0_zkvm::guest::env;
+
+fn main() {
+    let iterations: u32 = env::read();
+    let answer = fibonacci(iterations);
+    env::commit(&answer);
+}
+
+#[inline(never)]
+#[no_mangle]
+pub fn fibonacci(n: u32) -> u64 {
+    let (mut a, mut b) = (0, 1);
+    if n <= 1 {
+        return n as u64;
+    }
+    let mut i = 2;
+    while i <= n {
+        let c = a + b;
+        a = b;
+        b = c;
+        i += 1;
+    }
+    b
+}
