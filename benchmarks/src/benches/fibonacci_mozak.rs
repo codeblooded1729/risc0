@@ -18,7 +18,7 @@ use crate::Job;
 
 pub fn new_jobs() -> Vec<Job> {
     let mut jobs = Vec::new();
-    for iterations in [1000] {
+    for iterations in [100000] {
         jobs.push(Job::new(
             format!("fibonacci-mozak-{iterations}"),
             risc0_benchmark_methods::FIBONACCI_MOZAK_ELF,
